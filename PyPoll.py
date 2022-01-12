@@ -30,7 +30,7 @@ with open(file_to_load) as election_data:
     
     #print the header row
     headers=next(file_reader)
-    print(headers)
+    #print(headers)
 
     #Go through each row in the CSV file
     for row in file_reader:
@@ -52,27 +52,31 @@ with open(file_to_load) as election_data:
 
 
        
-    print(candidate_votes)
-    print(candidate_options)
-    print(total_votes)
+    #print(candidate_votes)
+    #print(candidate_options)
+    #print(total_votes)
     #print(election_data)
 
 #calculate percentage of votes for each candidate
 for vote_candidate, vote_number in candidate_votes.items():
+
+    #calculate and store the vote percentages per candidate
     vote_percentage=float(vote_number)/float(total_votes)*100
-    print(f"{vote_candidate} recieved {vote_percentage:.1f}% votes.")
     candidate_percentage[vote_candidate]=vote_percentage
 
-#determine winning candidate
-for cans in candidate_options:
-    if candidate_percentage[cans]>winning_percentage:
-        winning_percentage=candidate_percentage[cans]
-        winning_candidate=cans
-        winning_count=candidate_votes[cans]
+    #print each candidate's name, vote count, percent of votes
+    print(f"{vote_candidate}: {vote_percentage:.1f}% ({vote_number})\n")
 
-#print each candidate's name, vote count, percent of votes
-for can in candidate_options:
-    print(f"{can}: {candidate_percentage[can]:.1f}% ({candidate_votes[can]:,})\n")
+    #determine winning candidate
+    if candidate_percentage[vote_candidate]>winning_percentage:
+        winning_percentage=candidate_percentage[vote_candidate]
+        winning_candidate=vote_candidate
+        winning_count=candidate_votes[vote_candidate]
+
+
+
+
+
 
 winning_candidate_summary=(
     f"----------------------------\n"
@@ -93,10 +97,19 @@ file_to_save=os.path.join("analysis", "election_analysis.txt")
 
 #open the file as a text file
 with open(file_to_save, "w") as outfile:
-    #Title header and format:
-    outfile.write("Counties in the Election\n")
-    outfile.write("-------------------------\n")
-    #Write three counties to the file
-    outfile.write("Arapahoe\nDenver\nJefferson")
+    outfile.write("Election Results\n")
+    outfile.write("---------------------------\n")
+    outfile.write(f"Total Votes: {total_votes:,}\n")
+    outfile.write("---------------------------\n")
+    
+    #use for loop to display all the candidates, percent, and total votes
+    for can in candidate_options:
+        outfile.write(f"{can}: {candidate_percentage[can]:.1f}% ({candidate_votes[can]:,})\n")
+    
+    outfile.write("--------------------------\n")
+    outfile.write(f"Winner: {winning_candidate}\n")
+    outfile.write(f"Winning Vote Count: {winning_count:,}\n")
+    outfile.write(f"Winning Percentage: {winning_percentage:.1f}%\n")
+    outfile.write("--------------------------\n")
 
 
