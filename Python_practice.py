@@ -1,5 +1,3 @@
-voting_data = [
-    {"county":"Arapahoe", "registered_voters": 422829}, 
-    {"county":"Denver", "registered_voters": 463353}, 
-    {"county":"Jefferson", "registered_voters": 432438}]
+list=[1, 2, 1, 4, 5, 6, 7, 9, 1]
 
+print(len(list(1)))
